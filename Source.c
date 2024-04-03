@@ -106,7 +106,7 @@ void generateS2(char s2[S2LENGTHMAX + 1]) {
 
 /* Prompts the user to enter a single character. Returns null termianting character upon failure. */
 char getReplacementCharacter() {
-    printf("Enter a replacement character: ");
+    printf("Enter a single replacement character: ");
     int numCharacters = 0;
     int errorFlag = 0;
 
@@ -114,8 +114,8 @@ char getReplacementCharacter() {
     char iochar = getchar();
 
     /* If there are additional characters in the input buffer, clear the input buffer and raise error flag */
-    if ((iochar = getchar()) != EOF && iochar != '\n') {
-        while ((iochar = getchar()) != EOF && iochar != '\n') {}
+    if (getchar() != '\n') {
+        while (getchar() != '\n') {}
         errorFlag = 1;
     }
 
