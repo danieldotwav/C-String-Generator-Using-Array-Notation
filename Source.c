@@ -5,25 +5,48 @@
 #define S1LENGTH 40
 #define S2LENGTHMIN 2
 #define S2LENGTHMAX 20
-#define BUFFER 50
 
 void generateS1(char s1[S1LENGTH + 1]);
-void generateS2(char s2[S2LENGTHMAX + 1]);
+int generateS2(char s2[S2LENGTHMAX + 1]);
 char getReplacementCharacter();
+void strfilter(char s1[S1LENGTH + 1], char s2[S2LENGTHMAX + 1], char ch);
 
 int isUpperCaseLetter(int iochar);
+void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]);
 
 int main(void) {
-    char iochar = getReplacementCharacter();
-    printf("%c", iochar);
-    /*char s1[S1LENGTH + 1];
+    
+    /* Generate a random pattern of uppercase letters */
+    char s1[S1LENGTH + 1];
     generateS1(s1);
-    puts(s1);
 
+    /* Get user string of uppercase letters */
     char s2[S2LENGTHMAX];
     generateS2(s2);
 
-    puts(s2);*/
+    /* Get replacement character from user */
+    char ch = getReplacementCharacter();
+
+    /* Before we modify s1, we'll create a copy of s1 called original */
+    char original[S1LENGTH + 1];
+    duplicateArray(s1, original);
+
+    /*  Search s1 and replaces any occurrences of any of the characters contained in s2 with character ch */
+    strfilter(s1, s2, ch);
+
+    /* Output */
+    printf("s1 = ");
+    puts(original);
+
+    printf("s2 = ");
+    puts(s2);
+
+    printf("ch = '%c'\n", ch);
+
+    printf("s3 = ");
+    puts(s1);
+
+
 
     return 0;
 }
@@ -49,7 +72,7 @@ void generateS1(char s1[S1LENGTH + 1]) {
     return s1;
 }
 
-void generateS2(char s2[S2LENGTHMAX + 1]) {
+int generateS2(char s2[S2LENGTHMAX + 1]) {
     /* Get the user string */
     printf("Enter a string of uppercase letters 'A' - 'Z'\n");
     printf("Must contain between %d and %d characters: ", S2LENGTHMIN, S2LENGTHMAX);
@@ -127,6 +150,29 @@ char getReplacementCharacter() {
     return iochar;
 }
 
+void strfilter(char s1[S1LENGTH + 1], char s2[S2LENGTHMAX + 1], char ch) {
+    char s2Character;
+
+    /* We need to iterate through each character in s2 and search s1 for that character */
+    for (int i = 0; s2[i] != '\0'; ++i) {
+        s2Character = s2[i];
+
+        /* Search through all 40 randomly generated letters */
+        for (int j = 0; s1[j] != '\0'; ++j) {
+            if (s1[j] == s2Character) {
+                s1[j] = ch;
+            }
+        }
+    }
+}
+
 int isUpperCaseLetter(int iochar) {
     return (iochar >= 'A' && iochar <= 'Z');
+}
+
+/* Copies values from s1 into s2 */
+void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]) {
+    for (int i = 0; i < S1LENGTH + 1; ++i) {
+        s3[i] = s1[i];
+    }
 }
