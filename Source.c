@@ -7,12 +7,18 @@
 #define S2LENGTHMAX 20
 
 char* generateS1(void);
-char* generateS2(void);
+void generateS2(char s2[S2LENGTHMAX + 1]);
 
 int isUpperCaseLetter(int iochar);
 
 int main(void) {
     char* s1 = generateS1();
+
+    char s2[S2LENGTHMAX];
+    generateS2(s2);
+
+    puts(s2);
+
     return 0;
 }
 
@@ -40,8 +46,7 @@ char* generateS1(void) {
     return s1;
 }
 
-/* Returns nullptr upon receiving invalid input */
-char* generateS2(void) {
+void generateS2(char s2[S2LENGTHMAX + 1]) {
     /* Get the user string */
     printf("Enter a string of uppercase letters 'A' - 'Z'\n");
     printf("Must contain between %d and %d characters: ", S2LENGTHMIN, S2LENGTHMAX);
@@ -51,14 +56,11 @@ char* generateS2(void) {
     int hasExceededCharacterLimit = 0; /* Flag to keep track of string length */
     char currentCharacter; /* Keep track of current character being processed */
 
-    /* Allocate enough memory to store array of chars */
-    char* s2 = malloc((S2LENGTHMAX + 1) * sizeof(char));
-
     /* Process input while:
     /* 1. There are still characters in the input buffer,
     /* 2. We haven't encountered an invalid character, AND
     /* 3. The number of characters does not exceed the S2LENGTHMAX limit */
-    while ((currentCharacter = getchar()) != EOF) {
+    while ((currentCharacter = getchar()) != EOF && currentCharacter != '\n') {
         ++numCharacters; /* Increment character count */
 
         /* If we've already encountered an invalid character, simply increment the character counter */
@@ -79,7 +81,7 @@ char* generateS2(void) {
     }
 
     /* Check if user input meets min string length requirement */
-    int isLessThanRequiredLength = (numCharacters > S2LENGTHMIN);
+    int isLessThanRequiredLength = (numCharacters < S2LENGTHMIN);
 
     /* Print appropriate error messages */
     if (invalidCharacterDetected) {
@@ -90,12 +92,12 @@ char* generateS2(void) {
         printf("Error: Invalid string length. Input must be between %d and %d characters long\n", S2LENGTHMIN, S2LENGTHMAX);
     }
 
-    /* If any of the error flags were raised we need to deallocate memory */
+    /* If any of the error flags were raised, set the first index of the array to the null terminating character */
     if (invalidCharacterDetected || hasExceededCharacterLimit || isLessThanRequiredLength) {
-        //for (char* entry : )
+        s2[0] = '\0';
     }
     else {
-        /* Add null terminating character to signal end of string */
+        s2[numCharacters] = '\0';
     }
 }
 
