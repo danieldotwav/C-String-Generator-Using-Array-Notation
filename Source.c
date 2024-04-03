@@ -5,25 +5,30 @@
 #define S1LENGTH 40
 #define S2LENGTHMIN 2
 #define S2LENGTHMAX 20
+#define BUFFER 50
 
-char* generateS1(void);
+void generateS1(char s1[S1LENGTH + 1]);
 void generateS2(char s2[S2LENGTHMAX + 1]);
+char getReplacementCharacter();
 
 int isUpperCaseLetter(int iochar);
 
 int main(void) {
-    char* s1 = generateS1();
+    char iochar = getReplacementCharacter();
+    printf("%c", iochar);
+    /*char s1[S1LENGTH + 1];
+    generateS1(s1);
+    puts(s1);
 
     char s2[S2LENGTHMAX];
     generateS2(s2);
 
-    puts(s2);
+    puts(s2);*/
 
     return 0;
 }
 
-char* generateS1(void) {
-    char s1[S1LENGTH + 1];
+void generateS1(char s1[S1LENGTH + 1]) {
     int rand_num;
     char rand_char;
 
@@ -33,8 +38,6 @@ char* generateS1(void) {
 
         /* Shift the range to 65-90 and cast to char */
         rand_char = (char)(rand_num + 65);
-
-        printf("Random uppercase letter: %c\n", rand_char);
 
         /* Store random letter in array of chars */
         s1[i] = rand_char;
@@ -99,6 +102,29 @@ void generateS2(char s2[S2LENGTHMAX + 1]) {
     else {
         s2[numCharacters] = '\0';
     }
+}
+
+/* Prompts the user to enter a single character. Returns null termianting character upon failure. */
+char getReplacementCharacter() {
+    printf("Enter a replacement character: ");
+    int numCharacters = 0;
+    int errorFlag = 0;
+
+    /* Read a single character from input */
+    char iochar = getchar();
+
+    /* If there are additional characters in the input buffer, clear the input buffer and raise error flag */
+    if ((iochar = getchar()) != EOF && iochar != '\n') {
+        while ((iochar = getchar()) != EOF && iochar != '\n') {}
+        errorFlag = 1;
+    }
+
+    if (errorFlag) {
+        printf("Error: Multiple characters detected. Only single characters will be accepted.\n");
+        iochar = '\0';
+    }
+    
+    return iochar;
 }
 
 int isUpperCaseLetter(int iochar) {
