@@ -15,39 +15,62 @@ int isUpperCaseLetter(int iochar);
 void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]);
 
 int main(void) {
+    printf("Welcome User");
+    char selection = 'Y';
+    int invalidSelectionFlag;
+
+    while (selection == 'Y' || selection == 'y') {
+        /* Reset invalidSelectionFlag */
+        invalidSelectionFlag = 0;
+
+        /* Generate a random pattern of uppercase letters */
+        char s1[S1LENGTH + 1];
+        generateS1(s1);
+
+        /* Get user string of uppercase letters */
+        char s2[S2LENGTHMAX];
+        generateS2(s2);
+
+        /* Get replacement character from user */
+        char ch = getReplacementCharacter();
+
+        /* Before we modify s1, we'll create a copy of s1 called original */
+        char original[S1LENGTH + 1];
+        duplicateArray(s1, original);
+
+        /*  Search s1 and replaces any occurrences of any of the characters contained in s2 with character ch */
+        strfilter(s1, s2, ch);
+
+        /* Print the original string, user string, user char, and filtered string */
+        printf("s1 = ");
+        puts(original);
+
+        printf("s2 = ");
+        puts(s2);
+
+        printf("ch = '%c'\n", ch);
+
+        printf("s3 = ");
+        puts(s1);
+
+        /* Prompt the user the restart the program */
+        do {
+            printf("\nWould you like to run the program again? Type 'Y' for Yes, enter 'N' to exit\n");
+            selection = getchar();
+
+            if (getchar() != '\n') {
+                while (getchar() != '\n') {}
+                invalidSelectionFlag = 1;
+            }
+            else {
+                if (selection == 'Y' || selection == 'y' || selection == 'N' || selection == 'n') {
+                    invalidSelectionFlag = 0;
+                }
+            }
+        } while (invalidSelectionFlag);
+    }
     
-    /* Generate a random pattern of uppercase letters */
-    char s1[S1LENGTH + 1];
-    generateS1(s1);
-
-    /* Get user string of uppercase letters */
-    char s2[S2LENGTHMAX];
-    generateS2(s2);
-
-    /* Get replacement character from user */
-    char ch = getReplacementCharacter();
-
-    /* Before we modify s1, we'll create a copy of s1 called original */
-    char original[S1LENGTH + 1];
-    duplicateArray(s1, original);
-
-    /*  Search s1 and replaces any occurrences of any of the characters contained in s2 with character ch */
-    strfilter(s1, s2, ch);
-
-    /* Output */
-    printf("s1 = ");
-    puts(original);
-
-    printf("s2 = ");
-    puts(s2);
-
-    printf("ch = '%c'\n", ch);
-
-    printf("s3 = ");
-    puts(s1);
-
-
-
+    printf("\nTerminating Program..\n");
     return 0;
 }
 
@@ -74,7 +97,7 @@ void generateS1(char s1[S1LENGTH + 1]) {
 
 int generateS2(char s2[S2LENGTHMAX + 1]) {
     /* Get the user string */
-    printf("Enter a string of uppercase letters 'A' - 'Z'\n");
+    printf("\nEnter a string of uppercase letters 'A' - 'Z'\n");
     printf("Must contain between %d and %d characters: ", S2LENGTHMIN, S2LENGTHMAX);
 
     int numCharacters = 0; /* Keep track of num characters */
