@@ -38,7 +38,7 @@ int main(void) {
         char ch;
         
         do {
-            ch = getReplacementCharacter();
+            ch = getReplacementCharacter(); /* Loop until we have a single valid character */
         } while (ch == '\0');
         
         /* Before we modify s1, we'll create a copy of s1 called original */
@@ -65,14 +65,23 @@ int main(void) {
             printf("\nWould you like to run the program again? Type 'Y' for Yes, enter 'N' to exit\n");
             selection = getchar();
 
+            /* If we encounter more than one character, it's automatically invalid */
             if (getchar() != '\n') {
                 while (getchar() != '\n') {}
                 invalidSelectionFlag = 1;
             }
             else {
-                if (selection == 'Y' || selection == 'y' || selection == 'N' || selection == 'n') {
-                    invalidSelectionFlag = 0;
+                /* If the single character isn't Y or N, it is invalid */
+                if (selection != 'Y' && selection != 'y' && selection != 'N' && selection != 'n') {
+                    invalidSelectionFlag = 1;
                 }
+                else {
+                    invalidSelectionFlag = 0; /* We must reset flag here in case of multiple consecutive invalid inputs */
+                }
+            }
+
+            if (invalidSelectionFlag) {
+                printf("Error: Invalid selection\n");
             }
         } while (invalidSelectionFlag);
     }
@@ -210,6 +219,17 @@ void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]) {
 /* TEST CASE */
 /*
 
+1. User enters single lowercase char
+2. User enters single uppercase char
+3. User enters all uppercase chars, exceeds max limit (>20)
+4. User enters mix of upper/lowercase chars, exceeds max limit
+5. User enters mix of upper/lowercase chars, within limit (2-20)
+
+6. Replacement char is more than one char
+
+7. User enters string when prompted to repeat program
+8. User enters invalid single char when prompted to repeat program
+9. User enters lowercase 'y' to repeat program
 
 
 
