@@ -29,7 +29,10 @@ int main(void) {
 
         /* Get user string of uppercase letters */
         char s2[S2LENGTHMAX];
-        generateS2(s2);
+        
+        do {
+            generateS2(s2); /* Loop until we have a valid string */
+        } while (s2[0] == '\0');
 
         /* Get replacement character from user */
         char ch = getReplacementCharacter();
@@ -199,3 +202,16 @@ void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]) {
         s3[i] = s1[i];
     }
 }
+
+/* TEST CASE */
+/*
+
+
+
+
+
+
+
+
+
+*/
