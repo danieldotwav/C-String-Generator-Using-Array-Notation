@@ -15,7 +15,7 @@ int isUpperCaseLetter(int iochar);
 void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]);
 
 int main(void) {
-    printf("Welcome User");
+    printf("Welcome User\n");
     char selection = 'Y';
     int invalidSelectionFlag;
 
@@ -35,8 +35,12 @@ int main(void) {
         } while (s2[0] == '\0');
 
         /* Get replacement character from user */
-        char ch = getReplacementCharacter();
-
+        char ch;
+        
+        do {
+            ch = getReplacementCharacter();
+        } while (ch == '\0');
+        
         /* Before we modify s1, we'll create a copy of s1 called original */
         char original[S1LENGTH + 1];
         duplicateArray(s1, original);
@@ -45,7 +49,7 @@ int main(void) {
         strfilter(s1, s2, ch);
 
         /* Print the original string, user string, user char, and filtered string */
-        printf("s1 = ");
+        printf("\ns1 = ");
         puts(original);
 
         printf("s2 = ");
@@ -155,7 +159,7 @@ int generateS2(char s2[S2LENGTHMAX + 1]) {
 
 /* Prompts the user to enter a single character. Returns null termianting character upon failure. */
 char getReplacementCharacter() {
-    printf("Enter a single replacement character: ");
+    printf("\nEnter a single replacement character: ");
     int numCharacters = 0;
     int errorFlag = 0;
 
