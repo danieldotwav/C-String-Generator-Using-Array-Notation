@@ -32,7 +32,7 @@ int main(void) {
         duplicateArray(original, s1);
 
         /* Get user string of uppercase letters */
-        char s2[S2LENGTHMAX];
+        char s2[S2LENGTHMAX + 1];
 
         do {
             generateS2(s2); /* Loop until we have a valid string */
