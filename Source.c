@@ -12,24 +12,28 @@ char getReplacementCharacter();
 void strfilter(char s1[S1LENGTH + 1], char s2[S2LENGTHMAX + 1], char ch);
 
 int isUpperCaseLetter(int iochar);
-void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]);
+void duplicateArray(char original[S1LENGTH + 1], char copy[S1LENGTH + 1]);
 
 int main(void) {
     printf("Welcome User\n");
     char selection = 'Y';
     int invalidSelectionFlag;
 
+    /* Generate a random pattern of uppercase letters only once */
+    char original[S1LENGTH + 1];
+    generateS1(original);
+
     while (selection == 'Y' || selection == 'y') {
         /* Reset invalidSelectionFlag */
         invalidSelectionFlag = 0;
 
-        /* Generate a random pattern of uppercase letters */
+        /* Generate a copy of the randomly generated array, called s1 */
         char s1[S1LENGTH + 1];
-        generateS1(s1);
+        duplicateArray(original, s1);
 
         /* Get user string of uppercase letters */
         char s2[S2LENGTHMAX];
-        
+
         do {
             generateS2(s2); /* Loop until we have a valid string */
         } while (s2[0] == '\0');
@@ -40,10 +44,6 @@ int main(void) {
         do {
             ch = getReplacementCharacter(); /* Loop until we have a single valid character */
         } while (ch == '\0');
-        
-        /* Before we modify s1, we'll create a copy of s1 called original */
-        char original[S1LENGTH + 1];
-        duplicateArray(s1, original);
 
         /*  Search s1 and replaces any occurrences of any of the characters contained in s2 with character ch */
         strfilter(s1, s2, ch);
@@ -210,32 +210,26 @@ int isUpperCaseLetter(int iochar) {
 }
 
 /* Copies values from s1 into s2 */
-void duplicateArray(char s1[S1LENGTH + 1], char s3[S1LENGTH + 1]) {
+void duplicateArray(char original[S1LENGTH + 1], char copy[S1LENGTH + 1]) {
     for (int i = 0; i < S1LENGTH + 1; ++i) {
-        s3[i] = s1[i];
+        copy[i] = original[i];
     }
 }
 
-/* TEST CASE */
+/* TEST CASES */
 /*
-
 1. User enters single lowercase char
 2. User enters single uppercase char
 3. User enters all uppercase chars, exceeds max limit (>20)
-4. User enters mix of upper/lowercase chars, exceeds max limit
-5. User enters mix of upper/lowercase chars, within limit (2-20)
+4. User enters all lowercase chars, exceeds max limit
+5. User enters mix of upper/lowercase chars, exceeds max limit
+6. User enters mix of upper/lowercase chars, within limit (2-20)
+7. User enters non-alphabetical characters
+8. User enters max possible characters
 
-6. Replacement char is more than one char
+9. Replacement char is more than one chararacter long
 
-7. User enters string when prompted to repeat program
-8. User enters invalid single char when prompted to repeat program
-9. User enters lowercase 'y' to repeat program
-
-
-
-
-
-
-
-
+10. User enters string when prompted to repeat program
+11. User enters invalid single char when prompted to repeat program
+12. User enters lowercase 'y' to repeat program
 */
